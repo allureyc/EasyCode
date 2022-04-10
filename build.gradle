@@ -21,7 +21,7 @@ plugins {
 
 
 group 'com.sjhy'
-version '1.2.5-java.RELEASE'
+version '1.2.6-java.custom'
 
 sourceCompatibility = JavaVersion.VERSION_1_8
 targetCompatibility = JavaVersion.VERSION_1_8
@@ -40,7 +40,7 @@ intellij {
     // 沙箱目录位置，用于保存IDEA的设置，默认在build文件下面，防止clean，放在根目录下。
     sandboxDirectory = "${rootProject.rootDir}/idea-sandbox"
     // 开发环境运行时使用的版本
-    version '2020.1.2'
+    version '2021.3.2'
     // 社区版
 //    type 'IC'
     // 企业版
@@ -56,7 +56,7 @@ intellij {
 
 dependencies {
     // jackson工具
-    compile 'com.fasterxml.jackson.core:jackson-databind:2.9.6'
+    compile 'com.fasterxml.jackson.core:jackson-databind:2.13.2'
     // guava工具
 //    compile 'com.google.guava:guava:29.0-jre'
     // velocity支持
@@ -68,11 +68,11 @@ dependencies {
     // freemarker支持
 //    compile 'org.freemarker:freemarker:2.3.30'
     // lombok 支持
-    compileOnly 'org.projectlombok:lombok:1.18.2'
-    annotationProcessor 'org.projectlombok:lombok:1.18.2'
-    testAnnotationProcessor 'org.projectlombok:lombok:1.18.2'
+    compileOnly 'org.projectlombok:lombok:1.18.22'
+    annotationProcessor 'org.projectlombok:lombok:1.18.22'
+    testAnnotationProcessor 'org.projectlombok:lombok:1.18.22'
     // 测试用例
-    testCompile 'junit:junit:4.12'
+    testCompile 'junit:junit:4.13.2'
 }
 
 tasks.withType(JavaCompile) {

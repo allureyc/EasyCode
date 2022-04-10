@@ -25,6 +25,26 @@ import java.util.regex.Pattern;
 @NoArgsConstructor
 public class ColumnInfoDTO {
 
+    /**
+     * 名称
+     */
+    private String name;
+    /**
+     * 注释
+     */
+    private String comment;
+    /**
+     * 全类型
+     */
+    private String type;
+    /**
+     * 标记是否为自定义附加列
+     */
+    private Boolean custom;
+    /**
+     * 扩展数据
+     */
+    private Map<String, Object> ext;
     public ColumnInfoDTO(PsiField field) {
         this.name = field.getName();
         this.comment = DocCommentUtils.getComment(field.getDocComment());
@@ -32,7 +52,6 @@ public class ColumnInfoDTO {
         this.custom = false;
         this.ext = new HashMap<>();
     }
-
     public ColumnInfoDTO(DasColumn column) {
         this.name = NameUtils.getInstance().getJavaName(column.getName());
         this.comment = column.getComment();
@@ -56,25 +75,4 @@ public class ColumnInfoDTO {
         }
         return "java.lang.Object";
     }
-
-    /**
-     * 名称
-     */
-    private String name;
-    /**
-     * 注释
-     */
-    private String comment;
-    /**
-     * 全类型
-     */
-    private String type;
-    /**
-     * 标记是否为自定义附加列
-     */
-    private Boolean custom;
-    /**
-     * 扩展数据
-     */
-    private Map<String, Object> ext;
 }

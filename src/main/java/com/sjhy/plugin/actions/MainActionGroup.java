@@ -42,7 +42,6 @@ public class MainActionGroup extends ActionGroup {
         return this.notExistsChildren;
     }
 
-
     /**
      * 根据右键在不同的选项上展示不同的子菜单
      *
@@ -126,7 +125,6 @@ public class MainActionGroup extends ActionGroup {
         // 返回所有菜单
         return new AnAction[]{mainAction, configAction, clearConfigAction};
     }
-
 
     /**
      * 获取空菜单组

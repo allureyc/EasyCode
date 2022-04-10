@@ -62,11 +62,9 @@ public class TemplateSettingForm implements Configurable, BaseSettings {
      */
     private EditListComponent<Template> editListComponent;
 
-
     public TemplateSettingForm() {
         this.mainPanel = new JPanel(new BorderLayout());
     }
-
 
     private void initGroupName() {
         Consumer<TemplateGroup> switchGroupOperator = templateGroup -> {
@@ -143,7 +141,8 @@ public class TemplateSettingForm implements Configurable, BaseSettings {
     }
 
     @Override
-    public @Nullable JComponent createComponent() {
+    public @Nullable
+    JComponent createComponent() {
         this.initPanel();
         return mainPanel;
     }

@@ -55,6 +55,7 @@ public class TableInfoSettingsDTO {
     private String generateKey(PsiClass psiClass) {
         return psiClass.getQualifiedName();
     }
+
     /**
      * 读表信息
      *

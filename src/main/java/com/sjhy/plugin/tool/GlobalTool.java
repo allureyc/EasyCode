@@ -20,6 +20,11 @@ import java.util.*;
  */
 @SuppressWarnings("unused")
 public class GlobalTool extends NameUtils {
+    /**
+     * 中文及中文符号正则表达式
+     */
+    public static final String CHINESE_REGEX = "[\u4e00-\u9fa5–—‘’“”…、。〈〉《》「」『』【】〔〕！（），．：；？]";
+    private static final long MAX = 100000000000000000L;
     private static volatile GlobalTool globalTool;
 
     /**
@@ -190,8 +195,6 @@ public class GlobalTool extends NameUtils {
         return JSON.toJsonByFormat(result).replace("\r\n", "\n");
     }
 
-    private static final long MAX = 100000000000000000L;
-
     /**
      * 生成长度为18位的序列号，保持代码美观
      *
@@ -245,7 +248,7 @@ public class GlobalTool extends NameUtils {
     /**
      * 将对象转json字符串
      *
-     * @param obj 对象
+     * @param obj    对象
      * @param format 是否格式化json
      * @return json字符串
      */
@@ -265,12 +268,8 @@ public class GlobalTool extends NameUtils {
     }
 
     /**
-     * 中文及中文符号正则表达式
-     */
-    public static final String CHINESE_REGEX = "[\u4e00-\u9fa5–—‘’“”…、。〈〉《》「」『』【】〔〕！（），．：；？]";
-
-    /**
      * 字符串转unicode编码（默认只转换CHINESE_REGEX匹配到的字符）
+     *
      * @param str 字符串
      * @return 转码后的字符串
      */
@@ -280,7 +279,8 @@ public class GlobalTool extends NameUtils {
 
     /**
      * 字符串转unicode编码
-     * @param str 字符串
+     *
+     * @param str      字符串
      * @param transAll true转换所有字符，false只转换CHINESE_REGEX匹配到的字符
      * @return 转码后的字符串
      */
