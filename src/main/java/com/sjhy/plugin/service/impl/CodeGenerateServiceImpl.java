@@ -3,10 +3,22 @@ package com.sjhy.plugin.service.impl;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.intellij.database.util.DasUtil;
 import com.intellij.database.util.DbUtil;
+import com.intellij.ide.fileTemplates.FileTemplateManager;
+import com.intellij.openapi.editor.Document;
+import com.intellij.openapi.editor.Editor;
+import com.intellij.openapi.editor.EditorFactory;
+import com.intellij.openapi.editor.ex.EditorEx;
+import com.intellij.openapi.editor.highlighter.EditorHighlighterFactory;
+import com.intellij.openapi.fileTypes.FileType;
+import com.intellij.openapi.fileTypes.FileTypeManager;
 import com.intellij.openapi.module.Module;
 import com.intellij.openapi.module.ModuleManager;
 import com.intellij.openapi.project.Project;
+import com.intellij.openapi.ui.DialogBuilder;
 import com.intellij.openapi.ui.Messages;
+import com.intellij.psi.PsiDocumentManager;
+import com.intellij.psi.PsiFile;
+import com.intellij.psi.PsiFileFactory;
 import com.intellij.util.ReflectionUtil;
 import com.sjhy.plugin.dict.GlobalDict;
 import com.sjhy.plugin.dto.GenerateOptions;
@@ -19,7 +31,11 @@ import com.sjhy.plugin.service.CodeGenerateService;
 import com.sjhy.plugin.service.SettingsStorageService;
 import com.sjhy.plugin.service.TableInfoSettingsService;
 import com.sjhy.plugin.tool.*;
+import com.sjhy.plugin.ui.base.EditorSettingsInit;
 
+import javax.swing.*;
+import java.awt.*;
+import java.util.List;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -36,19 +52,19 @@ public class CodeGenerateServiceImpl implements CodeGenerateService {
     /**
      * 项目对象
      */
-    private Project project;
+    private final Project project;
     /**
      * 模型管理
      */
-    private ModuleManager moduleManager;
+    private final ModuleManager moduleManager;
     /**
      * 表信息服务
      */
-    private TableInfoSettingsService tableInfoService;
+    private final TableInfoSettingsService tableInfoService;
     /**
      * 缓存数据工具
      */
-    private CacheDataUtils cacheDataUtils;
+    private final CacheDataUtils cacheDataUtils;
 
     public CodeGenerateServiceImpl(Project project) {
         this.project = project;
@@ -64,16 +80,16 @@ public class CodeGenerateServiceImpl implements CodeGenerateService {
      * @param generateOptions 生成选项
      */
     @Override
-    public void generate(Collection<Template> templates, GenerateOptions generateOptions) {
+    public void generate(Collection<Template> templates, GenerateOptions generateOptions, Boolean preview) {
         // 获取选中表信息
         TableInfo selectedTableInfo;
         List<TableInfo> tableInfoList;
         if (Boolean.TRUE.equals(generateOptions.getEntityModel())) {
             selectedTableInfo = tableInfoService.getTableInfo(cacheDataUtils.getSelectPsiClass());
-            tableInfoList = cacheDataUtils.getPsiClassList().stream().map(item -> tableInfoService.getTableInfo(item)).collect(Collectors.toList());
+            tableInfoList = cacheDataUtils.getPsiClassList().stream().map(tableInfoService::getTableInfo).collect(Collectors.toList());
         } else {
             selectedTableInfo = tableInfoService.getTableInfo(cacheDataUtils.getSelectDbTable());
-            tableInfoList = cacheDataUtils.getDbTableList().stream().map(item -> tableInfoService.getTableInfo(item)).collect(Collectors.toList());
+            tableInfoList = cacheDataUtils.getDbTableList().stream().map(tableInfoService::getTableInfo).collect(Collectors.toList());
         }
         // 校验选中表的保存路径是否正确
         if (StringUtils.isEmpty(selectedTableInfo.getSavePath())) {
@@ -108,7 +124,7 @@ public class CodeGenerateServiceImpl implements CodeGenerateService {
         }
 
         // 生成代码
-        generate(templates, tableInfoList, generateOptions, null);
+        generate(templates, tableInfoList, generateOptions, null, preview);
     }
 
     /**
@@ -119,7 +135,7 @@ public class CodeGenerateServiceImpl implements CodeGenerateService {
      * @param generateOptions 生成配置
      * @param otherParam      其他参数
      */
-    public void generate(Collection<Template> templates, Collection<TableInfo> tableInfoList, GenerateOptions generateOptions, Map<String, Object> otherParam) {
+    public void generate(Collection<Template> templates, Collection<TableInfo> tableInfoList, GenerateOptions generateOptions, Map<String, Object> otherParam, Boolean preview) {
         if (CollectionUtil.isEmpty(templates) || CollectionUtil.isEmpty(tableInfoList)) {
             return;
         }
@@ -160,17 +176,59 @@ public class CodeGenerateServiceImpl implements CodeGenerateService {
                 param.put("callback", callback);
                 // 开始生成
                 String code = VelocityUtils.generate(template.getCode(), param);
-                // 设置一个默认保存路径与默认文件名
-                String path = callback.getSavePath();
-                path = path.replace("\\", "/");
-                // 针对相对路径进行处理
-                if (path.startsWith(".")) {
-                    path = project.getBasePath() + path.substring(1);
+
+                if (preview) {
+                    previewFile(callback, code, tableInfo);
+                } else {
+                    saveFile(callback, code, generateOptions);
                 }
-                callback.setSavePath(path);
-                new SaveFile(project, code, callback, generateOptions).write();
+
             }
         }
+    }
+
+    private void saveFile(Callback callback, String code, GenerateOptions generateOptions) {
+        // 设置一个默认保存路径与默认文件名
+        String path = callback.getSavePath();
+        path = path.replace("\\", "/");
+        // 针对相对路径进行处理
+        if (path.startsWith(".")) {
+            path = project.getBasePath() + path.substring(1);
+        }
+        callback.setSavePath(path);
+        new SaveFile(project, code, callback, generateOptions).write();
+    }
+
+    private void previewFile(Callback callback, String code, TableInfo tableInfo) {
+        // 创建编辑框
+        EditorFactory editorFactory = EditorFactory.getInstance();
+        PsiFileFactory psiFileFactory = PsiFileFactory.getInstance(ProjectUtils.getCurrProject());
+        FileType fileType = FileTypeManager.getInstance().getFileTypeByFileName(callback.getFileName());
+        PsiFile psiFile = psiFileFactory.createFileFromText(tableInfo.getName(), fileType, code, 0, true);
+        // 标识为模板，让velocity跳过语法校验
+        psiFile.getViewProvider().putUserData(FileTemplateManager.DEFAULT_TEMPLATE_PROPERTIES, FileTemplateManager.getInstance(ProjectUtils.getCurrProject()).getDefaultProperties());
+        Document document = PsiDocumentManager.getInstance(ProjectUtils.getCurrProject()).getDocument(psiFile);
+
+        assert document != null;
+        Editor editor = editorFactory.createViewer(document, ProjectUtils.getCurrProject());
+
+        // 配置编辑框
+        EditorSettingsInit.init(editor);
+        ((EditorEx) editor).setHighlighter(EditorHighlighterFactory.getInstance().createEditorHighlighter(ProjectUtils.getCurrProject(), tableInfo.getName()));
+
+        // 构建dialog
+        DialogBuilder dialogBuilder = new DialogBuilder(ProjectUtils.getCurrProject());
+        dialogBuilder.setTitle(GlobalDict.TITLE_INFO);
+        JComponent component = editor.getComponent();
+        component.setPreferredSize(new Dimension(800, 600));
+        dialogBuilder.setCenterPanel(component);
+        dialogBuilder.addCloseButton();
+        dialogBuilder.addDisposable(() -> {
+            //释放掉编辑框
+            editorFactory.releaseEditor(editor);
+            dialogBuilder.dispose();
+        });
+        dialogBuilder.show();
     }
 
     /**

@@ -33,7 +33,7 @@ public interface CodeGenerateService {
      * @param templates       模板
      * @param generateOptions 生成选项
      */
-    void generate(Collection<Template> templates, GenerateOptions generateOptions);
+    void generate(Collection<Template> templates, GenerateOptions generateOptions, Boolean preview);
 
     /**
      * 生成代码
