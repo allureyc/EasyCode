@@ -19,6 +19,7 @@ import com.intellij.openapi.ui.Messages;
 import com.intellij.psi.PsiDocumentManager;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.PsiFileFactory;
+import com.intellij.psi.PsiClass;
 import com.intellij.util.ReflectionUtil;
 import com.sjhy.plugin.dict.GlobalDict;
 import com.sjhy.plugin.dto.GenerateOptions;
@@ -46,10 +47,6 @@ import java.util.stream.Collectors;
  */
 public class CodeGenerateServiceImpl implements CodeGenerateService {
     /**
-     * 导入包时过滤的包前缀
-     */
-    private static final String FILTER_PACKAGE_NAME = "java.lang";
-    /**
      * 项目对象
      */
     private final Project project;
@@ -65,6 +62,12 @@ public class CodeGenerateServiceImpl implements CodeGenerateService {
      * 缓存数据工具
      */
     private final CacheDataUtils cacheDataUtils;
+
+    /**
+     * 导入包时过滤的包前缀
+     */
+    private static final String FILTER_PACKAGE_NAME = "java.lang";
+
 
     public CodeGenerateServiceImpl(Project project) {
         this.project = project;
@@ -96,7 +99,8 @@ public class CodeGenerateServiceImpl implements CodeGenerateService {
             if (selectedTableInfo.getObj() != null) {
                 Messages.showInfoMessage(selectedTableInfo.getObj().getName() + "表配置信息不正确，请尝试重新配置", GlobalDict.TITLE_INFO);
             } else if (selectedTableInfo.getPsiClassObj() != null) {
-                Messages.showInfoMessage(selectedTableInfo.getPsiClassObj().getName() + "类配置信息不正确，请尝试重新配置", GlobalDict.TITLE_INFO);
+                PsiClass psiClassObj = (PsiClass) selectedTableInfo.getPsiClassObj();
+                Messages.showInfoMessage(psiClassObj.getName() + "类配置信息不正确，请尝试重新配置", GlobalDict.TITLE_INFO);
             } else {
                 Messages.showInfoMessage("配置信息不正确，请尝试重新配置", GlobalDict.TITLE_INFO);
             }
