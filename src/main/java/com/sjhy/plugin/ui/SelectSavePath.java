@@ -91,6 +91,9 @@ public class SelectSavePath extends DialogWrapper {
      * 弹框全否复选框
      */
     private JCheckBox titleRefuseCheckBox;
+
+    private JButton previewButton;
+
     /**
      * 数据缓存工具类
      */
@@ -189,7 +192,8 @@ public class SelectSavePath extends DialogWrapper {
                         // 刷新路径
                         refreshPath();
                     }
-                } catch (NoSuchMethodException | IllegalAccessException | InstantiationException | InvocationTargetException e1) {
+                } catch (NoSuchMethodException | IllegalAccessException | InstantiationException |
+                         InvocationTargetException e1) {
                     ExceptionUtil.rethrow(e1);
                 }
             });
@@ -221,12 +225,15 @@ public class SelectSavePath extends DialogWrapper {
                 pathField.setText(virtualFile.getPath());
             }
         });
+
+        //预览
+        previewButton.addActionListener(e -> onFinish(true));
     }
 
     private void refreshData() {
         // 获取选中的表信息（鼠标右键的那张表），并提示未知类型
         TableInfo tableInfo;
-        if(entityMode) {
+        if (entityMode) {
             tableInfo = tableInfoService.getTableInfo(cacheDataUtils.getSelectPsiClass());
         } else {
             tableInfo = tableInfoService.getTableInfo(cacheDataUtils.getSelectDbTable());
@@ -263,23 +270,23 @@ public class SelectSavePath extends DialogWrapper {
 
     @Override
     protected void doOKAction() {
-        onOK();
+        onFinish(false);
         super.doOKAction();
     }
 
     /**
      * 确认按钮回调事件
      */
-    private void onOK() {
+    private void onFinish(Boolean preview) {
         List<Template> selectTemplateList = templateSelectComponent.getAllSelectedTemplate();
         // 如果选择的模板是空的
         if (selectTemplateList.isEmpty()) {
-            Messages.showWarningDialog("Can't Select Template!", GlobalDict.TITLE_INFO);
+            Messages.showWarningDialog("Can't select template!", GlobalDict.TITLE_INFO);
             return;
         }
         String savePath = pathField.getText();
         if (StringUtils.isEmpty(savePath)) {
-            Messages.showWarningDialog("Can't Select Save Path!", GlobalDict.TITLE_INFO);
+            Messages.showWarningDialog("Can't select save path!", GlobalDict.TITLE_INFO);
             return;
         }
         // 针对Linux系统路径做处理
@@ -297,7 +304,7 @@ public class SelectSavePath extends DialogWrapper {
         }
         // 保存配置
         TableInfo tableInfo;
-        if(!entityMode) {
+        if (!entityMode) {
             tableInfo = tableInfoService.getTableInfo(cacheDataUtils.getSelectDbTable());
         } else {
             tableInfo = tableInfoService.getTableInfo(cacheDataUtils.getSelectPsiClass());
@@ -314,7 +321,7 @@ public class SelectSavePath extends DialogWrapper {
         tableInfoService.saveTableInfo(tableInfo);
 
         // 生成代码
-        codeGenerateService.generate(selectTemplateList, getGenerateOptions());
+        codeGenerateService.generate(selectTemplateList, getGenerateOptions(), preview);
     }
 
     /**
