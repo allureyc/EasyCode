@@ -25,6 +25,7 @@ import java.util.List;
  */
 public class GenerateDefaultConfigTest {
 
+
     @Test
     public void generate() throws IOException {
         SettingsStorageDTO settingsStorage = new SettingsStorageDTO();

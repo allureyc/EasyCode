@@ -33,6 +33,7 @@ public final class CurrGroupUtils {
         return settingsStorage.getTemplateGroupMap().get(groupName);
     }
 
+
     /**
      * 获取当前全局配置组对象
      *
@@ -43,6 +44,7 @@ public final class CurrGroupUtils {
         String groupName = settingsStorage.getCurrGlobalConfigGroupName();
         return settingsStorage.getGlobalConfigGroupMap().get(groupName);
     }
+
 
     /**
      * 获取当前类型映射组对象

@@ -14,7 +14,6 @@ import com.intellij.openapi.fileTypes.FileTypeManager;
 import com.intellij.openapi.module.Module;
 import com.intellij.openapi.module.ModuleManager;
 import com.intellij.openapi.project.Project;
-import com.intellij.openapi.ui.DialogBuilder;
 import com.intellij.openapi.ui.Messages;
 import com.intellij.psi.PsiDocumentManager;
 import com.intellij.psi.PsiFile;
@@ -49,25 +48,23 @@ public class CodeGenerateServiceImpl implements CodeGenerateService {
     /**
      * 项目对象
      */
-    private final Project project;
+    private Project project;
     /**
      * 模型管理
      */
-    private final ModuleManager moduleManager;
+    private ModuleManager moduleManager;
     /**
      * 表信息服务
      */
-    private final TableInfoSettingsService tableInfoService;
+    private TableInfoSettingsService tableInfoService;
     /**
      * 缓存数据工具
      */
-    private final CacheDataUtils cacheDataUtils;
-
+    private CacheDataUtils cacheDataUtils;
     /**
      * 导入包时过滤的包前缀
      */
     private static final String FILTER_PACKAGE_NAME = "java.lang";
-
 
     public CodeGenerateServiceImpl(Project project) {
         this.project = project;

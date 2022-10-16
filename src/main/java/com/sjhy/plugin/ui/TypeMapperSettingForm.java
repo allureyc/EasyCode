@@ -91,8 +91,7 @@ public class TypeMapperSettingForm implements BaseSettings {
     }
 
     @Override
-    public @Nullable
-    JComponent createComponent() {
+    public @Nullable JComponent createComponent() {
         this.initPanel();
         return mainPanel;
     }

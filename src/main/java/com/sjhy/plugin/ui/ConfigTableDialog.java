@@ -83,8 +83,7 @@ public class ConfigTableDialog extends DialogWrapper {
     }
 
     @Override
-    protected @Nullable
-    JComponent createCenterPanel() {
+    protected @Nullable JComponent createCenterPanel() {
         return this.mainPanel;
     }
 

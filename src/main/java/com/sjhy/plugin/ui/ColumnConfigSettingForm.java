@@ -97,8 +97,7 @@ public class ColumnConfigSettingForm implements Configurable, BaseSettings {
     }
 
     @Override
-    public @Nullable
-    JComponent createComponent() {
+    public @Nullable JComponent createComponent() {
         this.initPanel();
         return mainPanel;
     }

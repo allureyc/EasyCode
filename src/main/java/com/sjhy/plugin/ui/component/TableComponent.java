@@ -13,6 +13,7 @@ import lombok.NonNull;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellEditor;
+import java.util.Collections;
 import java.util.List;
 import java.util.Vector;
 import java.util.function.BiConsumer;
@@ -135,6 +136,7 @@ public class TableComponent<T extends AbstractItem<T>> extends DefaultTableModel
     public boolean canExchangeRows(int oldIndex, int newIndex) {
         return true;
     }
+
 
     @Data
     @AllArgsConstructor

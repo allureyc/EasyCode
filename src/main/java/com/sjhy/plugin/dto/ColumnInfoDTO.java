@@ -45,6 +45,7 @@ public class ColumnInfoDTO {
      * 扩展数据
      */
     private Map<String, Object> ext;
+
     public ColumnInfoDTO(PsiField field) {
         this.name = field.getName();
         this.comment = DocCommentUtils.getComment(field.getDocComment());
@@ -52,6 +53,7 @@ public class ColumnInfoDTO {
         this.custom = false;
         this.ext = new HashMap<>();
     }
+
     public ColumnInfoDTO(DasColumn column) {
         this.name = NameUtils.getInstance().getJavaName(column.getName());
         this.comment = column.getComment();

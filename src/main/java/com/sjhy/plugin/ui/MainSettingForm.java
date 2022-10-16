@@ -86,8 +86,7 @@ public class MainSettingForm implements Configurable, Configurable.Composite, Ba
     }
 
     @Override
-    public @NotNull
-    Configurable[] getConfigurables() {
+    public @NotNull Configurable[] getConfigurables() {
         this.childConfigurableArray = new Configurable[]{
                 new TypeMapperSettingForm(),
                 new TemplateSettingForm(),
@@ -108,8 +107,7 @@ public class MainSettingForm implements Configurable, Configurable.Composite, Ba
     }
 
     @Override
-    public @Nullable
-    JComponent createComponent() {
+    public @Nullable JComponent createComponent() {
         // TODO 临时隐藏未开发完毕的UI组件
         this.pushBtn.setVisible(false);
         this.pullBtn.setVisible(false);

@@ -67,6 +67,7 @@ public class MainAction extends AnAction {
         new SelectSavePath(event.getProject()).show();
     }
 
+
     /**
      * 类型校验，如果存在未知类型则引导用于去条件类型
      *
@@ -111,7 +112,7 @@ public class MainAction extends AnAction {
         return true;
     }
 
-    public static class Dialog extends DialogWrapper {
+    public static class Dialog  extends DialogWrapper {
 
         private String typeName;
 
@@ -139,8 +140,7 @@ public class MainAction extends AnAction {
         }
 
         @Override
-        protected @Nullable
-        JComponent createCenterPanel() {
+        protected @Nullable JComponent createCenterPanel() {
             return this.mainPanel;
         }
 

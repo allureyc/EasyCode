@@ -65,9 +65,11 @@ public class GlobalConfigSettingForm implements Configurable, BaseSettings {
      */
     private EditListComponent<GlobalConfig> editListComponent;
 
+
     public GlobalConfigSettingForm() {
         this.mainPanel = new JPanel(new BorderLayout());
     }
+
 
     private void initGroupName() {
         Consumer<GlobalConfigGroup> switchGroupOperator = globalConfigGroup -> {
@@ -137,8 +139,7 @@ public class GlobalConfigSettingForm implements Configurable, BaseSettings {
     }
 
     @Override
-    public @Nullable
-    JComponent createComponent() {
+    public @Nullable JComponent createComponent() {
         this.initPanel();
         return mainPanel;
     }

@@ -1,6 +1,7 @@
 package com.sjhy.plugin.tool;
 
 import com.intellij.codeInsight.actions.AbstractLayoutCodeProcessor;
+import com.intellij.codeInsight.actions.OptimizeImportsProcessor;
 import com.intellij.codeInsight.actions.ReformatCodeProcessor;
 import com.intellij.openapi.command.WriteCommandAction;
 import com.intellij.openapi.diagnostic.Logger;
@@ -35,9 +36,6 @@ public class FileUtils {
     private static final Logger LOG = Logger.getInstance(FileUtils.class);
     private static volatile FileUtils fileUtils;
 
-    private FileUtils() {
-    }
-
     /**
      * 单例模式
      */
@@ -50,6 +48,9 @@ public class FileUtils {
             }
         }
         return fileUtils;
+    }
+
+    private FileUtils() {
     }
 
     /**

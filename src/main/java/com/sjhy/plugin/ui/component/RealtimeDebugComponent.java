@@ -164,6 +164,7 @@ public class RealtimeDebugComponent {
         }
     }
 
+
     private List<String> getAllTableNameBySort() {
         if (CollectionUtil.isEmpty(this.allTables)) {
             return Collections.emptyList();
