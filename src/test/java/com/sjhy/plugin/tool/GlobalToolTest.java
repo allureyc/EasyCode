@@ -29,7 +29,7 @@ public class GlobalToolTest {
         Assert.assertEquals("", out);
         //null
         System.out.println(out = tool.hump2Underline(null));
-        Assert.assertEquals(null, out);
+        Assert.assertNull(out);
         //全大写字符串
         System.out.println(out = tool.hump2Underline("AASIANINFRASTRUCTUREINVESTMENTBANK"));
         Assert.assertEquals("aasianinfrastructureinvestmentbank", out);

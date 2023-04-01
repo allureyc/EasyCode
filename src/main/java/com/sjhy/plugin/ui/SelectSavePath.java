@@ -97,28 +97,28 @@ public class SelectSavePath extends DialogWrapper {
     /**
      * 数据缓存工具类
      */
-    private CacheDataUtils cacheDataUtils = CacheDataUtils.getInstance();
+    private final CacheDataUtils cacheDataUtils = CacheDataUtils.getInstance();
     /**
      * 表信息服务
      */
-    private TableInfoSettingsService tableInfoService;
+    private final TableInfoSettingsService tableInfoService;
     /**
      * 项目对象
      */
-    private Project project;
+    private final Project project;
     /**
      * 代码生成服务
      */
-    private CodeGenerateService codeGenerateService;
+    private final CodeGenerateService codeGenerateService;
     /**
      * 当前项目中的module
      */
-    private List<Module> moduleList;
+    private final List<Module> moduleList;
 
     /**
      * 实体模式生成代码
      */
-    private boolean entityMode;
+    private final boolean entityMode;
 
     /**
      * 模板选择组件

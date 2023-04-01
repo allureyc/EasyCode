@@ -40,7 +40,7 @@ public class TemplateSettingForm implements Configurable, BaseSettings {
         }
     }
 
-    private JPanel mainPanel;
+    private final JPanel mainPanel;
     /**
      * 类型映射配置
      */

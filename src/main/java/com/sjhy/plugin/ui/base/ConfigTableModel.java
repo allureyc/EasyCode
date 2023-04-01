@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
  */
 public class ConfigTableModel extends DefaultTableModel implements EditableModel {
 
-    private TableInfo tableInfo;
+    private final TableInfo tableInfo;
 
     public ConfigTableModel(TableInfo tableInfo) {
         this.tableInfo = tableInfo;

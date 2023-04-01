@@ -25,7 +25,7 @@ public class MainActionGroup extends ActionGroup {
     /**
      * 缓存数据工具类
      */
-    private CacheDataUtils cacheDataUtils = CacheDataUtils.getInstance();
+    private final CacheDataUtils cacheDataUtils = CacheDataUtils.getInstance();
 
     /**
      * 是否不存在子菜单
@@ -74,10 +74,9 @@ public class MainActionGroup extends ActionGroup {
         }
         List<DbTable> dbTableList = new ArrayList<>();
         for (PsiElement element : psiElements) {
-            if (!(element instanceof DbTable)) {
+            if (!(element instanceof DbTable dbTable)) {
                 continue;
             }
-            DbTable dbTable = (DbTable) element;
             dbTableList.add(dbTable);
         }
         if (dbTableList.isEmpty()) {

@@ -20,15 +20,15 @@ public class ExtraCodeGenerateUtils {
     /**
      * 代码生成服务
      */
-    private CodeGenerateServiceImpl codeGenerateService;
+    private final CodeGenerateServiceImpl codeGenerateService;
     /**
      * 表信息对象
      */
-    private TableInfo tableInfo;
+    private final TableInfo tableInfo;
     /**
      * 生成配置
      */
-    private GenerateOptions generateOptions;
+    private final GenerateOptions generateOptions;
 
     public ExtraCodeGenerateUtils(CodeGenerateServiceImpl codeGenerateService, TableInfo tableInfo, GenerateOptions generateOptions) {
         this.codeGenerateService = codeGenerateService;

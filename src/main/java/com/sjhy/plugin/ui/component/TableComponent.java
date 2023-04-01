@@ -14,7 +14,6 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
-import java.util.Collections;
 import java.util.List;
 import java.util.Vector;
 import java.util.function.BiConsumer;
@@ -31,7 +30,7 @@ public class TableComponent<T extends AbstractItem<T>> extends DefaultTableModel
     /**
      * 列信息
      */
-    private List<Column<T>> columns;
+    private final List<Column<T>> columns;
     /**
      * 表数据
      */
@@ -42,7 +41,7 @@ public class TableComponent<T extends AbstractItem<T>> extends DefaultTableModel
     @Getter
     private JBTable table;
 
-    private Class<T> cls;
+    private final Class<T> cls;
 
     public TableComponent(@NonNull List<Column<T>> columns, @NonNull List<T> dataList, Class<T> cls) {
         this.columns = columns;

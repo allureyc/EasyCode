@@ -5,7 +5,6 @@ import com.intellij.openapi.ui.DialogWrapper;
 import com.intellij.openapi.ui.Messages;
 import com.intellij.openapi.ui.VerticalFlowLayout;
 import com.intellij.openapi.ui.ex.MultiLineLabel;
-import com.intellij.openapi.ui.popup.JBPopupFactory;
 import com.sjhy.plugin.dict.GlobalDict;
 import com.sjhy.plugin.dto.SettingsStorageDTO;
 import com.sjhy.plugin.entity.AbstractGroup;
@@ -38,20 +37,20 @@ public class ExportImportComponent {
     /**
      * 导出按钮
      */
-    private JButton exportBtn;
+    private final JButton exportBtn;
     /**
      * 导入按钮
      */
-    private JButton importBtn;
+    private final JButton importBtn;
     /**
      * 导出导入服务
      */
-    private ExportImportSettingsService service;
+    private final ExportImportSettingsService service;
 
     /**
      * 导入成功回调
      */
-    private Runnable callback;
+    private final Runnable callback;
 
     public ExportImportComponent(JButton exportBtn, JButton importBtn, ExportImportSettingsService service, Runnable callback) {
         this.exportBtn = exportBtn;
@@ -221,13 +220,13 @@ public class ExportImportComponent {
 
     private static class Handler<T extends AbstractGroup> {
         @Getter
-        private ListRadioComponent radioComponent;
+        private final ListRadioComponent radioComponent;
 
-        private Map<String, T> localMap;
+        private final Map<String, T> localMap;
 
-        private Map<String, T> remoteMap;
+        private final Map<String, T> remoteMap;
 
-        private String name;
+        private final String name;
 
         Handler(ListRadioComponent radioComponent, Map<String, T> localMap, Map<String, T> remoteMap, String name) {
             this.radioComponent = radioComponent;

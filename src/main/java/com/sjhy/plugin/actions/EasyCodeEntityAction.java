@@ -90,7 +90,6 @@ public class EasyCodeEntityAction extends AnAction {
         VirtualFile file = event.getDataContext().getData(CommonDataKeys.VIRTUAL_FILE);
         if (file != null && !file.isDirectory() && !"java".equals(file.getExtension())) {
             event.getPresentation().setVisible(false);
-            return;
         }
     }
 

@@ -14,7 +14,7 @@ import java.util.Collection;
  */
 public class InputExistsValidator implements InputValidator {
 
-    private Collection<String> itemList;
+    private final Collection<String> itemList;
 
     public InputExistsValidator(Collection<String> itemList) {
         this.itemList = itemList;
