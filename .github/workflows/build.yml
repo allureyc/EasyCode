@@ -4,8 +4,8 @@ on:
   push:
     branches:
       - idea-2023.1
-    tags:
-      - '*'
+#    tags:
+#      - '*'
 
 jobs:
   build:
@@ -29,7 +29,7 @@ jobs:
         run: chmod +x gradlew
 
       - name: Build Plugin
-        run: ./gradlew clean build
+        run: ./gradlew clean build -Pversion=V3.0.${{ github.run_number }}-SNAPSHOT
 
       - name: Create Release
         id: create_release

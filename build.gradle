@@ -22,7 +22,10 @@ plugins {
 
 group 'com.sjhy'
 //version '${{ github.ref }}'
-version '1.0-SNAPSHOT'
+
+//使用build -Pversion=2.0.0-SNAPSHOT动态指定版本号
+//def versionNumber = "1.0.0"
+//version "${versionNumber}-SNAPSHOT"
 
 sourceCompatibility = JavaVersion.VERSION_17
 targetCompatibility = JavaVersion.VERSION_17
