@@ -1,0 +1,58 @@
+name: Build and Release Plugin
+
+on:
+  push:
+    branches:
+      - idea-2023.1
+    tags:
+      - '*'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Grant execute permission for Gradle Wrapper
+        run: chmod +x gradlew
+
+      - name: Build Plugin
+        run: ./gradlew clean build
+
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1.0.1
+        env:
+          GITHUB_TOKEN: ${{ secrets.ACTIONS_TOKEN }}
+        with:
+          tag_name: EasyCode-V3.0.${{ github.run_number }}
+          release_name: Release EasyCode-V3.0.${{ github.run_number }}
+          draft: false
+          prerelease: false
+
+      - name: Rename artifact
+        run: mv build/distributions/*.zip EasyCode-V3.0.${{ github.run_number }}.zip
+
+      - name: Check folders
+        run: |
+          ls -al ${{ github.workspace }}
+          echo Artifact path: ${{ steps.upload-plugin.outputs.artifact_path }}
+
+      - name: Attach Artifact to Release
+        id: attach-artifact
+        uses: actions/upload-release-asset@v1.0.2
+        env:
+          GITHUB_TOKEN: ${{ secrets.ACTIONS_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: EasyCode-V3.0.${{ github.run_number }}.zip
+          asset_name: EasyCode-V3.0.${{ github.run_number }}
+          asset_content_type: application/zip
