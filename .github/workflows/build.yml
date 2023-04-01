@@ -15,9 +15,9 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Checkout branch
+      - name: Get commit history
         run: |
-          git checkout ${GITHUB_REF#refs/heads/}
+          echo "COMMITS=$(git log -10 --pretty=format:"%h %s")" >> $GITHUB_ENV
 
       - name: Set up JDK 17
         uses: actions/setup-java@v3
@@ -39,6 +39,10 @@ jobs:
         with:
           tag_name: EasyCode-V3.0.${{ github.run_number }}
           release_name: Release EasyCode-V3.0.${{ github.run_number }}
+          body: |
+            These are the changes since the last release:
+            
+            ${{ env.COMMITS }}
           draft: false
           prerelease: false
 
