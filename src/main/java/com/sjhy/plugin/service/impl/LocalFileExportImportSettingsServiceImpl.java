@@ -62,7 +62,7 @@ public class LocalFileExportImportSettingsServiceImpl implements ExportImportSet
 
                 // 发起通知
                 Notification notification = new Notification(
-                        Notifications.SYSTEM_MESSAGES_GROUP_ID,
+                        Notifications.TOPIC.getDisplayName(),
                         "Easy code notify",
                         "Easy code config file export to",
                         NotificationType.INFORMATION);

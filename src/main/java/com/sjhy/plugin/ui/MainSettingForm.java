@@ -119,7 +119,7 @@ public class MainSettingForm implements Configurable, Configurable.Composite, Ba
         this.loadSettingsStore();
         // 初始化事件
         this.initEvent();
-        this.initLocalExportEvent();
+        //this.initLocalExportEvent();
         return mainPanel;
     }
 
