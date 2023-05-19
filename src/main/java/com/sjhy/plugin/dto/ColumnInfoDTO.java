@@ -10,8 +10,6 @@ import com.sjhy.plugin.tool.NameUtils;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.regex.Pattern;
 
 /**
@@ -36,7 +34,7 @@ public class ColumnInfoDTO {
     public ColumnInfoDTO(DasColumn column) {
         this.name = NameUtils.getInstance().getJavaName(column.getName());
         this.comment = column.getComment();
-        this.type = getJavaType(column.getDasType().toString());
+        this.type = getJavaType(column.getDasType().toDataType().typeName);
         this.custom = false;
         this.ext = "{}";
     }
